@@ -10,6 +10,7 @@ header h1 {
   font-family: 'Quicksand', sans-serif;
   text-align: center;
   font-size: 72px;
+  margin: 40px auto;
   background: -webkit-linear-gradient(black, grey);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -23,21 +24,34 @@ main {
 footer {
   font-family: 'Quicksand', sans-serif;
   text-align: center;
-  font-size: 32px;
+  font-size: 18px;
+  margin: 40px auto;
 }
 
 .gameBoard {
   background-color: grey;
   width: 650px;
-  height: 250px;
+  height: 200px;
   margin-top: 10px;
 }
 
+.roundDisplay {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 32px;
+  text-align: center;
+}
+.square {
+  background-color: blue;
+  width: 50px;
+  height: 35px;
+  float: left;
+}
 .difficulty {
   background-color: yellow;
   width: 650px;
   height: 50px;
   margin-top: 10px;
+  text-align: center;
 }
 
 .inplay {
@@ -59,3 +73,13 @@ button {
   height: 30px;
   width: 120px;
 }
+
+// .easyButton .hardButton {
+//   position: absolute;
+//   top: 50%;
+//   margin-top: 10px;
+// }
+//
+// .hardButton {
+//   margin-left: 10px;
+// }
