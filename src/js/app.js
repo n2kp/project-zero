@@ -6,13 +6,11 @@ $(() => {
   const $difficulty = $('.difficulty');
   const $easyButton = $('.easyButton');
   const $hardButton = $('.hardButton');
-  const $inplay = $('.inplay');
   const $resetButton = $('.resetButton');
   const $nextButton = $('.nextButton');
   const $quickTime = $('.quickTime');
   const $whichRound = $('.roundDisplay');
   const $sound = $('.soundOnOff');
-
   const colorPalette = [
                       ['#3db5f9', '#48a8e8', '#539ad7', '#5e8dc6', '#697fb5', '#7472a4', '#7e6493', '#895782', '#944a71', '#9f3c60', '#aa2f4f', '#b5213e', '#c0142d'],
                       ['#44f267', '#4bdf68', '#51cd69', '#58ba6a', '#5ea76b', '#65956c', '#6b826d', '#726f6e', '#795d6f', '#7f4a70', '#863771', '#8c2572', '#931273'],
@@ -44,17 +42,20 @@ $(() => {
                       ['#f89951', '#ed915b', '#e28a66', '#d78270', '#cc7a7a', '#c17285', '#b66b8f', '#ab6399', '#a05ba4', '#9553ae', '#8a4bb8', '#7f44c3', '#743ccd'],
                       ['#f5d2bf', '#e6c3c1', '#d7b3c4', '#c8a4c7', '#ba94c9', '#ab84cb', '#9c75ce', '#8d65d1', '#7e56d3', '#6f47d5', '#6137d8', '#5228da', '#4318dd'],
                       ['#8abc18', '#81b32a', '#79ab3b', '#70a24b', '#67995f', '#5f9171', '#568882', '#4d7f94', '#4577a6', '#3c6eb8', '#3365ca', '#2b5ddb', '#2254ed'],
-                      ['#b6c506', '#abb915', '#a1ae24', '#96a233', '#8b9642', '#818a51', '#767e61', '#6b7370', '#61677f', '#565b8e', '#4b4f9d', '#4144ac', '#3638bb'],
+                      ['#b6c506', '#abb915', '#a1ae24', '#96a233', '#8b9642', '#818a51', '#767e61', '#6b7370', '#61677f', '#565b8e', '#4b4f9d', '#4144ac', '#3638bb']
   ];
+  // Arrays with 13 values each holding the color palette of gradients
 
   let roundNumber = 1;
+  let $round = $('.round');
   let $gameSquares = $('.square');
-
+  let quickestTime = null;
 
   $resetButton.hide();
   $nextButton.hide();
   $gameSquares.hide();
   $whichRound.hide();
+  // When the game is in a state of non-play, these values are hidden as they are not required
 
 
   function gameStart () {
@@ -64,16 +65,21 @@ $(() => {
     $gameSquares.show();
     $whichRound.show();
   }
+  // This function is used to hide and show various buttons and elements when a game mode is initiated
 
 
   function colors() {
     return colorPalette[Math.floor(Math.random()*colorPalette.length)];
   }
+  // This function is used to pick and return a random array from the color palette
+
 
   let randomColorsArr = colors();
 
+
   const easyR1 = [randomColorsArr[0], randomColorsArr[3], randomColorsArr[6], randomColorsArr[9], randomColorsArr[12]];
   console.log(easyR1);
+
 
   Array.prototype.shuffleLeaveFL = function() {
     var arr = [];
@@ -87,14 +93,34 @@ $(() => {
     arr.unshift(this[0]); // add old first element to front of arr
     return arr;
   };
+  // This function is used to shuffle the array
+
 
   console.log(easyR1.shuffleLeaveFL());
-
 
 
   $gameSquares.each(function(idx, el) {
     $(el).css('backgroundColor', easyR1[idx]);
   });
+  // This is used to insert the HEX codes which are in the array, as a background color into the divs on the game board
+
+
+  var prev,
+    prevcolor,
+    count = 0;
+  function changeColor(){
+    if(count===0){
+      prev = $(this);
+      prevcolor = prev.css('background-color');
+    }else if(count===1){
+      prev.css('background-color', $(this).css('background-color'));
+      $(this).css('background-color', prevcolor);
+      count = -1;
+    }
+    count+=1;
+  }
+  $('.gameSquares').on('click', changeColor);
+
 
 
   $difficulty.on('click', (e) => {
@@ -108,14 +134,24 @@ $(() => {
       gameStart();
       alert('About to play hard');
     }
-  });
+  }); // Game starting event listener
+
 
 });
 
 
-// NEXT LEVEL
-//   $gameBoard.append("<div></div>").addClass('square');
+// NEXT ROUND
+// $gameBoard.append("<div></div>").addClass('square');
+// round number +=1
 
+
+// RESET
+// timer reset
+// $resetButton.hide();
+// $nextButton.hide();
+// $gameSquares.hide();
+// $whichRound.hide();
+//
 
 // SOUND
 // $sound.on('click', () => {
@@ -127,39 +163,42 @@ $(() => {
 //   }
 // });
 
-// EASY MODE:
-//   Round1
-//     [0], [3], [6], [9], [12]
-//   Round 2
-//     [0], [3], [5], [7], [9], [12]
-//   Round 3
-//     [0], [1], [3], [6], [9], [11], [12]
-//   Round 4
-//     [0], [1], [3], [5], [7], [9], [11], [12]
-//   Round 5
-//     [0], [1], [3], [4], [6], [8], [9], [11], [12]
+
+
+// function startTime() {
+//   var time1 = new Date();
+//   return time1;
+// }
 //
-// HARD MODE:
-//   Round1
-//     [0], [1], [3], [4], [6], [8], [9], [11], [12]
-//   Round 2
-//     [0], [1], [2], [4], [5], [7], [8], [10], [11], [12]
-//   Round 3
-//     [0], [1], [2], [3], [5], [6], [7], [9], [10], [11], [12]
-//   Round 4
-//     [0], [1], [2], [3], [4], [5], [7], [8], [9], [10], [11], [12]
-//   Round 5
-//     [0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [11], [12]
+// function endTime() {
+//   var time2 = new Date();
+//   return time2;
+// }
+//
+// function checkTime() {
+//   var timeDiff = (time2 - time1)/1000;
+//   return timeDiff;
+//   quickTime = timeDiff < quickTime ? timeDiff : quickTime;
+// }
 
 
-
-
-
-
-
-
-
-
+// const easyR1 = [randomColorsArr[0], randomColorsArr[3], randomColorsArr[6], randomColorsArr[9], randomColorsArr[12]];
+//
+// const easyR2 = [randomColorsArr[0], randomColorsArr[3], randomColorsArr[5], randomColorsArr[7], randomColorsArr[12], randomColorsArr[9]];
+//
+// const easyR3 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[3], randomColorsArr[6], randomColorsArr[9], randomColorsArr[11], randomColorsArr[12]];
+//
+// const easyR4 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[3], randomColorsArr[5], randomColorsArr[7], randomColorsArr[9], randomColorsArr[11], randomColorsArr[12]];
+//
+// const easyR5hardR1 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[3], randomColorsArr[4], randomColorsArr[6], randomColorsArr[8], randomColorsArr[9], randomColorsArr[11], randomColorsArr[12]];
+//
+// const hardR2 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[2], randomColorsArr[4], randomColorsArr[5], randomColorsArr[7], randomColorsArr[8], randomColorsArr[10], randomColorsArr[11], randomColorsArr[12]];
+//
+// const hardR3 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[2], randomColorsArr[3], randomColorsArr[5], randomColorsArr[6], randomColorsArr[7], randomColorsArr[9], randomColorsArr[10], randomColorsArr[11], randomColorsArr[12]];
+//
+// const hardR4 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[2], randomColorsArr[3], randomColorsArr[4], randomColorsArr[5], randomColorsArr[7], randomColorsArr[8], randomColorsArr[9], randomColorsArr[10], randomColorsArr[11], randomColorsArr[12]];
+//
+// const hardR5 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[2], randomColorsArr[3], randomColorsArr[4], randomColorsArr[5], randomColorsArr[6], randomColorsArr[7], randomColorsArr[8], randomColorsArr[9], randomColorsArr[10], randomColorsArr[11], randomColorsArr[12]];
 
 
 
@@ -169,9 +208,8 @@ $(() => {
 
 // If 'Play Easy'
 // 'Play Easy' and 'Play Hard' buttons go to hidden
-// 'Reset' button and 'Next' button become unhidden
+// 'Reset' button become unhidden
   // 'Reset' will take you back to the loading page
-  // 'Next' button is unavailable ts click until round is complete
 // Round 1 begins
   // Timer begins
   // 'Next' button becomes unavailable
