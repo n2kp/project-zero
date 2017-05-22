@@ -46,6 +46,16 @@ footer {
   height: 35px;
   float: left;
   display: inline-block;
+  &:not(:first-of-type):not(:last-of-type) {
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  &:hover {
+    &:not(:first-of-type):not(:last-of-type) {
+      transform: scale(1.05);
+    }
+  }
+
 }
 .difficulty {
   background-color: yellow;
@@ -73,14 +83,15 @@ button {
   background: linear-gradient(45deg, rgba(255,184,115,0.65) 0%,rgba(255,124,189,0.65) 50%,rgba(108,0,153,0.65) 100%);
 	border-radius: 5px;
 	box-shadow: 0px 2px 4px rgba(34,62,66,.25);
-  color: #fff;
-  font-size: 15px;
+  color: #000;
+  font-size: 12px;
   letter-spacing: 0.5px;
-  // padding: 16px 32px;
+  padding: 5px 20px;
   text-decoration: none;
   text-transform: uppercase;
   -webkit-transition: box-shadow 1s ease;
 	transition: box-shadow 1s ease;
+  margin: 5px 10px;
 }
 
 // .easyButton .hardButton {

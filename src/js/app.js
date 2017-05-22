@@ -1,6 +1,6 @@
 $(() => {
 
-  console.log('Igor, it\'s alive!');
+  console.log('Igor, JavaScript\' alive!');
 
   const $gameboard = $('.gameBoard');
   const $difficulty = $('.difficulty');
@@ -11,6 +11,7 @@ $(() => {
   const $quickTime = $('.quickTime');
   const $whichRound = $('.roundDisplay');
   const $sound = $('.soundOnOff');
+
   const colorPalette = [
                       ['#3db5f9', '#48a8e8', '#539ad7', '#5e8dc6', '#697fb5', '#7472a4', '#7e6493', '#895782', '#944a71', '#9f3c60', '#aa2f4f', '#b5213e', '#c0142d'],
                       ['#44f267', '#4bdf68', '#51cd69', '#58ba6a', '#5ea76b', '#65956c', '#6b826d', '#726f6e', '#795d6f', '#7f4a70', '#863771', '#8c2572', '#931273'],
@@ -44,19 +45,31 @@ $(() => {
                       ['#8abc18', '#81b32a', '#79ab3b', '#70a24b', '#67995f', '#5f9171', '#568882', '#4d7f94', '#4577a6', '#3c6eb8', '#3365ca', '#2b5ddb', '#2254ed'],
                       ['#b6c506', '#abb915', '#a1ae24', '#96a233', '#8b9642', '#818a51', '#767e61', '#6b7370', '#61677f', '#565b8e', '#4b4f9d', '#4144ac', '#3638bb']
   ];
-  // Arrays with 13 values each holding the color palette of gradients
+
+  const elementSelector = [
+                          [0, 3, 6, 9, 12],
+                          [0, 3, 5, 7, 9, 12],
+                          [0, 1, 3, 6, 9, 11, 12],
+                          [0, 1, 3, 5, 7, 9, 11, 12],
+                          [0, 1, 3, 4, 6, 8, 9, 11, 12],
+                          [0, 1, 2, 4, 5, 7, 8, 10, 11, 12],
+                          [0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 12],
+                          [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12],
+                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  ];
+
 
   let roundNumber = 1;
   let $round = $('.round');
   let $gameSquares = $('.square');
   let quickestTime = null;
+  let roundArray = null;
+  let shuffledArray = [];
 
   $resetButton.hide();
   $nextButton.hide();
   $gameSquares.hide();
   $whichRound.hide();
-  // When the game is in a state of non-play, these values are hidden as they are not required
-
 
   function gameStart () {
     $easyButton.hide();
@@ -65,79 +78,95 @@ $(() => {
     $gameSquares.show();
     $whichRound.show();
   }
-  // This function is used to hide and show various buttons and elements when a game mode is initiated
-
-
-  function colors() {
-    return colorPalette[Math.floor(Math.random()*colorPalette.length)];
-  }
-  // This function is used to pick and return a random array from the color palette
-
-
-  let randomColorsArr = colors();
-
-
-  const easyR1 = [randomColorsArr[0], randomColorsArr[3], randomColorsArr[6], randomColorsArr[9], randomColorsArr[12]];
-  console.log(easyR1);
-
-
-  Array.prototype.shuffleLeaveFL = function() {
-    var arr = [];
-    for(let i=1; i<this.length-1; i++) {
-      arr.push(this[i]);
-    }
-    arr.sort(function() {
-      return 0.5 - Math.random();
-    }); // shuffle array
-    arr.push(this[this.length-1]); // add old last element to arr
-    arr.unshift(this[0]); // add old first element to front of arr
-    return arr;
-  };
-  // This function is used to shuffle the array
-
-
-  console.log(easyR1.shuffleLeaveFL());
-
-
-  $gameSquares.each(function(idx, el) {
-    $(el).css('backgroundColor', easyR1[idx]);
-  });
-  // This is used to insert the HEX codes which are in the array, as a background color into the divs on the game board
-
-
-  var prev,
-    prevcolor,
-    count = 0;
-  function changeColor(){
-    if(count===0){
-      prev = $(this);
-      prevcolor = prev.css('background-color');
-    }else if(count===1){
-      prev.css('background-color', $(this).css('background-color'));
-      $(this).css('background-color', prevcolor);
-      count = -1;
-    }
-    count+=1;
-  }
-  $('.gameSquares').on('click', changeColor);
-
-
 
   $difficulty.on('click', (e) => {
     console.log('clicked');
 
     if ($(e.target).hasClass('easyButton')) {
       gameStart();
-      alert('About to play easy');
+      playRound();
 
     } else if ($(e.target).hasClass('hardButton')){
       gameStart();
-      alert('About to play hard');
     }
-  }); // Game starting event listener
+  });
+
+
+  function colors() {
+    return colorPalette[Math.floor(Math.random()*colorPalette.length)];
+  }
+
+  let randomColorsArr = colors();
+  console.log(randomColorsArr);
+
+
+  function sequenceMatcher() {
+    const sequenceArray = elementSelector[roundNumber-1];
+    return roundArray = sequenceArray.map(function(item) {
+      return randomColorsArr[item];
+    });
+  }
+
+
+
+  Array.prototype.shuffle = function() {
+    for(let i=1; i<this.length-1; i++) {
+      shuffledArray.push(this[i]);
+    }
+    shuffledArray.sort(function() {
+      return 0.5 - Math.random();
+    });
+    shuffledArray.push(this[this.length-1]);
+    shuffledArray.unshift(this[0]);
+    return shuffledArray;
+  };
+
+
+
+  function playRound() {
+    roundNumber;
+    console.log('In play round', roundNumber);
+
+    const randomColorsArr = colors();
+
+    sequenceMatcher();
+    console.log('roundArray', roundArray);
+
+    roundArray.shuffle();
+    console.log('shuffledArray', shuffledArray);
+
+    $gameSquares.each(function(idx, el) {
+      $(el).css('backgroundColor', shuffledArray[idx]);
+    });
+  }
+
+
+
+
+  let prev, prevcolor = null;
+  let count = 0;
+  function changeColor(e){
+    const index = $(e.target).index('.square');
+    const length = $('.square').length;
+    if(index !== 0 && index !== (length - 1)) {
+      if(count===0){
+        prev = $(this);
+        prevcolor = prev.css('background-color');
+      }else if(count===1){
+        prev.css('background-color', $(this).css('background-color'));
+        $(this).css('background-color', prevcolor);
+        count = -1;
+      }
+      count+=1;
+    }
+  }
+  $gameSquares.on('click', changeColor);
+
+
 
 
 });
+
 
 
 // NEXT ROUND
@@ -154,14 +183,14 @@ $(() => {
 //
 
 // SOUND
-// $sound.on('click', () => {
-//   $sound.src = './assets/hue_hunter_background.mp3';
-//   if ($sound.paused === false) {
-//     $sound.pause();
-//   } else {
-//     $sound.play();
-//   }
-// });
+$sound.on('click', () => {
+  $sound.src = './assets/hue_hunter_background.mp3';
+  if ($sound.paused === false) {
+    $sound.pause();
+  } else {
+    $sound.play();
+  }
+});
 
 
 
@@ -184,7 +213,7 @@ $(() => {
 
 // const easyR1 = [randomColorsArr[0], randomColorsArr[3], randomColorsArr[6], randomColorsArr[9], randomColorsArr[12]];
 //
-// const easyR2 = [randomColorsArr[0], randomColorsArr[3], randomColorsArr[5], randomColorsArr[7], randomColorsArr[12], randomColorsArr[9]];
+// const easyR2 = [randomColorsArr[0], randomColorsArr[3], randomColorsArr[5], randomColorsArr[7], randomColorsArr[9], randomColorsArr[12]];
 //
 // const easyR3 = [randomColorsArr[0], randomColorsArr[1], randomColorsArr[3], randomColorsArr[6], randomColorsArr[9], randomColorsArr[11], randomColorsArr[12]];
 //
