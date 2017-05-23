@@ -31,7 +31,7 @@ footer {
 .gameBoard {
   background-color: grey;
   width: 650px;
-  height: 200px;
+  height: 150px;
   margin-top: 10px;
 }
 
@@ -48,11 +48,11 @@ footer {
   display: inline-block;
   &:not(:first-of-type):not(:last-of-type) {
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease;
   }
   &:hover {
     &:not(:first-of-type):not(:last-of-type) {
-      transform: scale(1.05);
+      transform: scale(1.15);
     }
   }
 
@@ -60,38 +60,57 @@ footer {
 .difficulty {
   background-color: yellow;
   width: 650px;
-  height: 40px;
-  margin-top: 10px;
+  height: 60px;
+  margin-top: 20px;
   text-align: center;
 }
 
 .inplay {
   background-color: red;
   width: 650px;
-  height: 40px;
+  height: 60px;
   margin-top: 10px;
 }
 
 .scoreSound {
   background-color: green;
   width: 650px;
-  height: 80px;
-  margin-top: 10px;
+  height: 100px;
+  margin-top: 20px;
 }
 
 button {
-  background: linear-gradient(45deg, rgba(255,184,115,0.65) 0%,rgba(255,124,189,0.65) 50%,rgba(108,0,153,0.65) 100%);
-	border-radius: 5px;
+	border-radius: 10px;
 	box-shadow: 0px 2px 4px rgba(34,62,66,.25);
-  color: #000;
-  font-size: 12px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
   letter-spacing: 0.5px;
-  padding: 5px 20px;
+  padding: 10px 40px;
   text-decoration: none;
   text-transform: uppercase;
   -webkit-transition: box-shadow 1s ease;
 	transition: box-shadow 1s ease;
   margin: 5px 10px;
+}
+
+.easyButton, .hardButton {
+  background: linear-gradient(45deg, #06bf79 0%, #517a8e 50%, #9b34a3 100%);
+  color: black;
+}
+
+.resetButton {
+  background: linear-gradient(45deg, #5ca10e 0%, #9e7a3b 50%, #df5369 100%);
+
+}
+
+.nextButton {
+  background: linear-gradient(45deg, #6746f2 0%, #a72597 50%, #e8043d 100%);
+
+}
+
+.soundOnOff {
+  background: linear-gradient(45deg, #71d72f 0%, #ad7d27 50%, #e8221f 100%);
+
 }
 
 // .easyButton .hardButton {
