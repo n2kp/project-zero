@@ -62,18 +62,26 @@ $(() => {
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   ];
 
-
+  let roundCounter = 1;
   let roundNumber = 1;
   let $round = $('.round');
   let $gameSquares = $('.square');
   let quickestTime = null;
   let roundArray = null;
   let shuffledArray = [];
+  let prev, prevcolor = null;
+  let count = 0;
+
 
   $resetButton.hide();
   $nextButton.hide();
   $gameSquares.hide();
   $whichRound.hide();
+
+  for (var i = 0; i < 6; i++) {
+
+  }
+
 
   function gameStart () {
     $easyButton.hide();
@@ -87,14 +95,18 @@ $(() => {
     console.log('clicked');
 
     if ($(e.target).hasClass('easyButton')) {
+      
       gameStart();
       playRound();
 
     } else if ($(e.target).hasClass('hardButton')){
-      roundNumber = roundNumber + 4
+      // $gameBoard.append('<div></div>').addClass('square');
+      // $gameBoard.append('<div></div>').addClass('square');
+      // $gameBoard.append('<div></div>').addClass('square');
+      // $gameBoard.append('<div></div>').addClass('square');
+      roundNumber = roundNumber + 4;
       gameStart();
       // playRound();
-      // $gameBoard.append('<div></div>').addClass('square');
     }
   });
 
@@ -151,9 +163,6 @@ $(() => {
   }
 
 
-
-  let prev, prevcolor = null;
-  let count = 0;
   function changeColor(e){
     const index = $(e.target).index('.square');
     const length = $('.square').length;
@@ -194,14 +203,72 @@ $(() => {
 
     if (userSortedArray.length === roundArray.length && userSortedArray.every((v,i)=> v === roundArray[i])) {
       console.log('It\'s a match, well done');
+      $nextButton.show();
+      alert('Round Complete, press Next Round to continue');
     } else {
-      console.log("Not quite, have another go");
+      console.log('Not quite, have another go');
     }
   }
 
 
 
+  // function nextRound () {
+  //   roundCounter += 1;
+  //   roundNumber += 1;
+  //   $gameBoard.append('<div></div>').addClass('square');
+  //   $nextButton.hide();
+  // }
+  //
+  // $nextButton.on('click', () => {
+  //   nextRound();
+  // }
+
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
