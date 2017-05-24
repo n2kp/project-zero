@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 body {
-  background: linear-gradient(to right, #1BBCB1, #37B9E9);
+  background: linear-gradient(to right, #79ece4, #169aca);
   font-family: 'Quicksand', sans-serif;
 }
 
@@ -24,12 +24,18 @@ main {
 footer {
   font-family: 'Quicksand', sans-serif;
   text-align: center;
+  background: linear-gradient(to left, #169c93, #1590bc);
+  border-radius: 10px;
+  border: 1px solid white;
   font-size: 18px;
-  margin: 40px auto;
+  margin: 30px auto;
+  width: 650px;
+  padding: 1px 0;
+  background-color: white;
 }
 
 .gameBoard {
-  background-color: grey;
+  // background-color: lightGrey;
   width: 650px;
   height: 150px;
   margin-top: 10px;
@@ -40,13 +46,15 @@ footer {
   font-size: 32px;
   text-align: center;
 }
+
 .square {
-  background-color: blue;
+  // background-color: blue;
   border-radius: 5px;
   width: 50px;
-  height: 35px;
+  height: 70px;
   float: left;
   display: inline-block;
+  // margin: 0 auto;
   &:not(:first-of-type):not(:last-of-type) {
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -59,7 +67,7 @@ footer {
 
 }
 .difficulty {
-  background-color: yellow;
+  // background-color: yellow;
   width: 650px;
   height: 60px;
   margin-top: 20px;
@@ -67,17 +75,18 @@ footer {
 }
 
 .inplay {
-  background-color: red;
+  // background-color: red;
   width: 650px;
   height: 60px;
   margin-top: 10px;
 }
 
 .scoreSound {
-  background-color: green;
+  // background-color: green;
   width: 650px;
   height: 100px;
-  margin-top: 20px;
+  margin-top: 50px;
+  text-align: center;
 }
 
 button {
@@ -95,31 +104,22 @@ button {
 }
 
 .easyButton, .hardButton {
-  background: linear-gradient(45deg, #06bf79 0%, #517a8e 50%, #9b34a3 100%);
-  color: black;
+  background: linear-gradient(45deg, #216deb 0%, #875891 50%, #ec4437 100%);
+  color: white;
 }
 
 .resetButton {
   background: linear-gradient(45deg, #5ca10e 0%, #9e7a3b 50%, #df5369 100%);
-
+  float: left;
 }
 
 .nextButton {
   background: linear-gradient(45deg, #6746f2 0%, #a72597 50%, #e8043d 100%);
+  float: right;
 
 }
 
 .soundOnOff {
   background: linear-gradient(45deg, #71d72f 0%, #ad7d27 50%, #e8221f 100%);
-
+  margin: 0 auto;
 }
-
-// .easyButton .hardButton {
-//   position: absolute;
-//   top: 50%;
-//   margin-top: 10px;
-// }
-//
-// .hardButton {
-//   margin-left: 10px;
-// }

@@ -2,11 +2,7 @@ $(() => {
 
   console.log('Igor, JavaScript\' alive!');
 
-  // const audio = $('audio')[0];
-  // audio.src = '../assets/hue_hunter_background.mp3';
-  // audio.play();
-
-  const $gameboard = $('.gameBoard');
+  const $gameBoard = $('.gameBoard');
   const $difficulty = $('.difficulty');
   const $easyButton = $('.easyButton');
   const $hardButton = $('.hardButton');
@@ -15,6 +11,8 @@ $(() => {
   const $quickTime = $('.quickTime');
   const $whichRound = $('.roundDisplay');
   const $sound = $('.soundOnOff');
+  const $pingSound = $('audio')[0];
+  const $backgroundSound = $('audio')[1];
 
   const colorPalette = [
     ['#3db5f9', '#48a8e8', '#539ad7', '#5e8dc6', '#697fb5', '#7472a4', '#7e6493', '#895782', '#944a71', '#9f3c60', '#aa2f4f', '#b5213e', '#c0142d'],
@@ -63,7 +61,7 @@ $(() => {
   ];
 
   let roundCounter = 1;
-  let roundNumber = 1;
+  let roundNumber = null;
   let $round = $('.round');
   let $gameSquares = $('.square');
   let quickestTime = null;
@@ -73,51 +71,37 @@ $(() => {
   let count = 0;
 
 
-  $resetButton.hide();
-  $nextButton.hide();
-  $gameSquares.hide();
-  $whichRound.hide();
+  $gameBoard.on('click', '.square', changeColor);
 
-  for (var i = 0; i < 6; i++) {
+  $nextButton.on('click', (e) => {
+    nextRound();
+    playRound();
+  });
 
-  }
+  $resetButton.on('click', (e) => {
+    resetGame();
+  });
 
+  // $resetButton.hide();
+  // $nextButton.hide();
+  // $gameSquares.hide();
+  // $whichRound.hide();
+
+  // for (var i = 0; i < 6; i++) {
+  // }
 
   function gameStart () {
     $easyButton.hide();
     $hardButton.hide();
     $resetButton.show();
-    $gameSquares.show();
     $whichRound.show();
   }
-
-  $difficulty.on('click', (e) => {
-    console.log('clicked');
-
-    if ($(e.target).hasClass('easyButton')) {
-      
-      gameStart();
-      playRound();
-
-    } else if ($(e.target).hasClass('hardButton')){
-      // $gameBoard.append('<div></div>').addClass('square');
-      // $gameBoard.append('<div></div>').addClass('square');
-      // $gameBoard.append('<div></div>').addClass('square');
-      // $gameBoard.append('<div></div>').addClass('square');
-      roundNumber = roundNumber + 4;
-      gameStart();
-      // playRound();
-    }
-  });
 
 
   function colors() {
     return colorPalette[Math.floor(Math.random()*colorPalette.length)];
   }
-
   let randomColorsArr = colors();
-  console.log(randomColorsArr);
-
 
   function sequenceMatcher() {
     const sequenceArray = elementSelector[roundNumber-1];
@@ -136,7 +120,13 @@ $(() => {
     });
     shuffledArray.push(this[this.length-1]);
     shuffledArray.unshift(this[0]);
-    return shuffledArray;
+
+    if (shuffledArray.length === roundArray.length && shuffledArray.every((v,i)=> v === roundArray[i])) {
+      shuffledArray = [];
+      roundArray.shuffle();
+    } else {
+      return shuffledArray;
+    }
   };
 
 
@@ -157,7 +147,8 @@ $(() => {
     console.log('roundArray', roundArray);
     roundArray.shuffle();
     console.log('shuffledArray', shuffledArray);
-    $gameSquares.each(function(idx, el) {
+
+    $('.square').each(function(idx, el) {
       $(el).css('backgroundColor', shuffledArray[idx]);
     });
   }
@@ -169,10 +160,10 @@ $(() => {
     if(index !== 0 && index !== (length - 1)) {
       if(count === 0){
         prev = $(this);
-        prevcolor = prev.css('background-color');
+        prevcolor = prev.css('backgroundColor');
       }else if(count === 1){
-        prev.css('background-color', $(this).css('background-color'));
-        $(this).css('background-color', prevcolor);
+        prev.css('backgroundColor', $(this).css('backgroundColor'));
+        $(this).css('backgroundColor', prevcolor);
         count = -1;
         checkComplete();
       }
@@ -180,20 +171,16 @@ $(() => {
     }
   }
 
-  $gameSquares.on('click', changeColor);
-
   function checkComplete () {
     let userRgb = [];
-    $gameSquares.each(function(index, element) {
+    $('.square').each(function(index, element) {
       // console.log('element', element, index);
       // console.log(userRgb[index]);
-      // $(element).css('backgroundColor', userRgb[index]);
       const backgroundColour = $(element).css('backgroundColor');
       // console.log(backgroundColour);
       userRgb.push(backgroundColour);
       // console.log(userRgb);
       // console.log(roundArray);
-      // return userRgb;
     });
     console.log('userRgb', userRgb);
 
@@ -203,25 +190,65 @@ $(() => {
 
     if (userSortedArray.length === roundArray.length && userSortedArray.every((v,i)=> v === roundArray[i])) {
       console.log('It\'s a match, well done');
-      $nextButton.show();
+      $pingSound.play();
       alert('Round Complete, press Next Round to continue');
+      $nextButton.show();
     } else {
       console.log('Not quite, have another go');
     }
   }
 
 
+  function nextRound () {
+    roundCounter += 1;
+    roundNumber +=1;
+    $gameBoard.append('<div class="square"></div>');
+    nextButton.hide();
+  }
 
-  // function nextRound () {
-  //   roundCounter += 1;
-  //   roundNumber += 1;
-  //   $gameBoard.append('<div></div>').addClass('square');
-  //   $nextButton.hide();
-  // }
-  //
-  // $nextButton.on('click', () => {
-  //   nextRound();
-  // }
+
+  function resetGame() {
+    roundCounter = 1;
+    roundNumber = 1;
+    $resetButton.hide();
+    $nextButton.hide();
+    $gameSquares.hide();
+    $whichRound.hide();
+    $easyButton.show();
+    $hardButton.show();
+  }
+
+
+  $difficulty.on('click', (e) => {
+    console.log('clicked');
+
+    if ($(e.target).hasClass('easyButton')) {
+      alert('You\'re about to start easy mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round. Hardly rocket science!');
+      roundNumber = 1;
+      gameStart();
+      playRound();
+
+    } else if ($(e.target).hasClass('hardButton')) {
+      alert('You\'re about to start hard mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round.  Hardly rocket science!');
+      roundNumber = 5;
+      for (let i = 0; i < 4; i++) {
+        $gameBoard.append('<div class="square"></div>');
+      }
+      gameStart();
+      playRound();
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -287,11 +314,6 @@ $(() => {
 // Div's clear
 
 
-// SOUND
-// $sound.on('click', () => {
-//   audio.src = './assets/hue_hunter_background.mp3';
-//   audio.play();
-// }
 
 
 
