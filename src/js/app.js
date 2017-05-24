@@ -18,7 +18,6 @@ $(() => {
     ['#3db5f9', '#48a8e8', '#539ad7', '#5e8dc6', '#697fb5', '#7472a4', '#7e6493', '#895782', '#944a71', '#9f3c60', '#aa2f4f', '#b5213e', '#c0142d'],
     ['#44f267', '#4bdf68', '#51cd69', '#58ba6a', '#5ea76b', '#65956c', '#6b826d', '#726f6e', '#795d6f', '#7f4a70', '#863771', '#8c2572', '#931273'],
     ['#553e13', '#5a3c1c', '#5f3a25', '#65382f', '#6a3638', '#6f3441', '#74324b', '#7a3054', '#7f2e5d', '#842c66', '#8a2a6f', '#8f2879', '#942682'],
-    ['#5c2c2d', '#623a35', '#68483d', '#6d5745', '#73654e', '#797356', '#7e815e', '#849066', '#8a9e6e', '#90ac77', '#95ba7f', '#9bc987', '#a1d78f'],
     ['#148ea9', '#278faa', '#3a90ab', '#4d90ab', '#6091ac', '#7392ad', '#8692ae', '#9993ae', '#ac94af', '#bf95b0', '#d295b1', '#e596b1', '#f897b2'],
     ['#493582', '#524586', '#5b568b', '#63668f', '#6c7693', '#758798', '#7e979c', '#86a7a0', '#8fb8a5', '#98c8a9', '#a1d8ad', '#a9e9b2', '#b2f9b6'],
     ['#6746f2', '#7241e3', '#7d3bd4', '#8735c5', '#9230b6', '#9d2ba7', '#a72597', '#b21f88', '#bd1a79', '#c8156a', '#d30f5b', '#dd094c', '#e8043d'],
@@ -47,6 +46,7 @@ $(() => {
     ['#8abc18', '#81b32a', '#79ab3b', '#70a24b', '#67995f', '#5f9171', '#568882', '#4d7f94', '#4577a6', '#3c6eb8', '#3365ca', '#2b5ddb', '#2254ed'],
     ['#b6c506', '#abb915', '#a1ae24', '#96a233', '#8b9642', '#818a51', '#767e61', '#6b7370', '#61677f', '#565b8e', '#4b4f9d', '#4144ac', '#3638bb']
   ];
+  // Contains 30 arrays, each with 13 items in each. Used in each round to pick a random array to produce the roundArray and shuffledArray.
 
   const elementSelector = [
     [0, 3, 6, 9, 12],
@@ -59,33 +59,58 @@ $(() => {
     [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12],
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   ];
+  // Contains 9 arrays with varying indices, used to determine how many indices to deploy depending upon which round and what game mode.
 
-  let roundCounter = 1;
+  let roundCounter = 0;
   let roundNumber = null;
   let $round = $('.round');
   let $gameSquares = $('.square');
-  let quickestTime = null;
   let roundArray = null;
+  let randomColorsArr = null;
   let shuffledArray = [];
   let prev, prevcolor = null;
   let count = 0;
+  let quickestTime = localStorage.getItem('quickestTime') || 0;
 
 
   $gameBoard.on('click', '.square', changeColor);
+  // Event Listener used with the changeColor function to allow JS to listen for clicks on the squares and change the colours once two clicks have been pressed.
 
-  $nextButton.on('click', (e) => {
+  $nextButton.on('click', () => {
+    shuffledArray = [];
     nextRound();
+    $round.text(roundCounter + 1);
     playRound();
   });
+  // Event Listener used to initiate the next round of the game. Empties the shuffledArray, runs the function nextRound, increase the round counter and repopulates the next round with an array.
 
-  $resetButton.on('click', (e) => {
+  $resetButton.on('click', () => {
     resetGame();
   });
+  // Event Listener used to reset the game. Brings the game back to the initial state when loaded. Does this by running the resetGame function.
 
-  // $resetButton.hide();
-  // $nextButton.hide();
-  // $gameSquares.hide();
-  // $whichRound.hide();
+  $difficulty.on('click', (e) => {
+    console.log('clicked');
+
+    if ($(e.target).hasClass('easyButton')) {
+      alert('You\'re about to start easy mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round. Hardly rocket science!');
+      $round.text(roundCounter + 1);
+      roundNumber = 1;
+      gameStart();
+      playRound();
+
+    } else if ($(e.target).hasClass('hardButton')) {
+      alert('You\'re about to start hard mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round.  Hardly rocket science!');
+      $round.text(roundCounter + 1);
+      roundNumber = 5;
+      for (let i = 0; i < 4; i++) {
+        $gameBoard.append('<div class="square"></div>');
+      }
+      gameStart();
+      playRound();
+    }
+  });
+  // Event Listener used to start the game. Depending on which game mode is clicked, it runs the script for either easy or hard.
 
   // for (var i = 0; i < 6; i++) {
   // }
@@ -96,12 +121,12 @@ $(() => {
     $resetButton.show();
     $whichRound.show();
   }
-
+  // This function is used to start the game. It hides the difficulty buttons and shows the game squares and reset button.
 
   function colors() {
     return colorPalette[Math.floor(Math.random()*colorPalette.length)];
   }
-  let randomColorsArr = colors();
+  // This function randomaly chooses one of the 30 color palettes for use in each round.
 
   function sequenceMatcher() {
     const sequenceArray = elementSelector[roundNumber-1];
@@ -109,7 +134,7 @@ $(() => {
       return randomColorsArr[item];
     });
   }
-
+  // This function uses the roundNumber, minus one, to find the array in the elementSelector and maps just the indices from that array onto the random array chosen from the colors function and calls it roundArray as it will be the array that the user needs to match.
 
   Array.prototype.shuffle = function() {
     for(let i=1; i<this.length-1; i++) {
@@ -128,21 +153,12 @@ $(() => {
       return shuffledArray;
     }
   };
-
-
-  function rgbToHex (userRgb) {
-    var rgb = userRgb.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
-    return (rgb && rgb.length === 4) ? '#' +
-    ('0' + parseInt(rgb[1],10).toString(16)).slice(-2) +
-    ('0' + parseInt(rgb[2],10).toString(16)).slice(-2) +
-    ('0' + parseInt(rgb[3],10).toString(16)).slice(-2) : userRgb;
-  }
-
+  // This takes the roundArray, removes the first and last indices, and then shuffles the middle indices, before reattaching the first and last indices. It also have a double shuffle function in case the first function returns the same array as the roundArray. Stores the array into a variable called shuffledArray.
 
   function playRound() {
     roundNumber;
     console.log('In play round', roundNumber);
-    const randomColorsArr = colors();
+    randomColorsArr = colors();
     sequenceMatcher();
     console.log('roundArray', roundArray);
     roundArray.shuffle();
@@ -152,7 +168,39 @@ $(() => {
       $(el).css('backgroundColor', shuffledArray[idx]);
     });
   }
+  // This function combines the functions colors, sequenceMatcher and shuffle. It is run in each round. Overall, it picks a random array from the colorPalette, maps it against the sequenceMatcher to produce the roundArray, which is then shuffled to produce the shuffledArray. It then pushes the HEX colors from the shuffledArray into the empty divs in the HTML.
 
+  function rgbToHex (userRgb) {
+    var rgb = userRgb.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+    return (rgb && rgb.length === 4) ? '#' +
+    ('0' + parseInt(rgb[1],10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[2],10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[3],10).toString(16)).slice(-2) : userRgb;
+  }
+  // This function is used to convert the userRgb array which is returned after two clicks into an array of HEX codes to be compared againt the roundArray. The input format is "rgb(r, g, b,)" and outputs "#HEXCODE".
+
+  function checkComplete () {
+    const userRgb = [];
+    $('.square').each(function(index, element) {
+      const backgroundColour = $(element).css('backgroundColor');
+      userRgb.push(backgroundColour);
+    });
+    console.log('userRgb', userRgb);
+
+    const userSortedArray = userRgb.map(rgbToHex);
+    console.log('userSortedArray', userSortedArray);
+    console.log('roundArray', roundArray);
+
+    if (userSortedArray.length === roundArray.length && userSortedArray.every((v,i)=> v === roundArray[i])) {
+      console.log('It\'s a match, well done');
+      $pingSound.play();
+      alert('Round Complete, press Next Round to continue');
+      $nextButton.show();
+    } else {
+      console.log('Not quite, have another go');
+    }
+  }
+  // This function checks to see if the user has sorted the array that was pushed into the divs. It begins with an empty array, userRgb, which is populated with the rgb codes from the colors that are currently on view, in the order they are in. It then converts the rgb colors into hex colors and puts them into a new array called userSortedArray. Finally it compares the userSortedArray to the roundArray to determine if they are identical. If they are, it alerts the user that the next round is available. Otherwise, the user continues to sort the array.
 
   function changeColor(e){
     const index = $(e.target).index('.square');
@@ -170,42 +218,15 @@ $(() => {
       count+=1;
     }
   }
-
-  function checkComplete () {
-    let userRgb = [];
-    $('.square').each(function(index, element) {
-      // console.log('element', element, index);
-      // console.log(userRgb[index]);
-      const backgroundColour = $(element).css('backgroundColor');
-      // console.log(backgroundColour);
-      userRgb.push(backgroundColour);
-      // console.log(userRgb);
-      // console.log(roundArray);
-    });
-    console.log('userRgb', userRgb);
-
-    let userSortedArray = userRgb.map(rgbToHex);
-    console.log('userSortedArray', userSortedArray);
-    console.log('roundArray', roundArray);
-
-    if (userSortedArray.length === roundArray.length && userSortedArray.every((v,i)=> v === roundArray[i])) {
-      console.log('It\'s a match, well done');
-      $pingSound.play();
-      alert('Round Complete, press Next Round to continue');
-      $nextButton.show();
-    } else {
-      console.log('Not quite, have another go');
-    }
-  }
-
+  // This function is used to switch the colors within div. Only once the user has clicked on two seperate divs will the background colors change. It also includes the checkComplete function so that once the change has been made, it can check whether it is correct or not.
 
   function nextRound () {
     roundCounter += 1;
     roundNumber +=1;
     $gameBoard.append('<div class="square"></div>');
-    nextButton.hide();
+    $nextButton.hide();
   }
-
+  // This function is used when the nextButton is clicked. The nextButton only appears after the user has correctly sorted the array, and is used to move to the next round. It hides once it is pressed so the user cannot skip rounds.
 
   function resetGame() {
     roundCounter = 1;
@@ -216,39 +237,13 @@ $(() => {
     $whichRound.hide();
     $easyButton.show();
     $hardButton.show();
+    let roundArray = null;
+    let randomColorsArr = null;
+    let shuffledArray = [];
+    let roundCounter = 0;
+    let roundNumber = null;
   }
-
-
-  $difficulty.on('click', (e) => {
-    console.log('clicked');
-
-    if ($(e.target).hasClass('easyButton')) {
-      alert('You\'re about to start easy mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round. Hardly rocket science!');
-      roundNumber = 1;
-      gameStart();
-      playRound();
-
-    } else if ($(e.target).hasClass('hardButton')) {
-      alert('You\'re about to start hard mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round.  Hardly rocket science!');
-      roundNumber = 5;
-      for (let i = 0; i < 4; i++) {
-        $gameBoard.append('<div class="square"></div>');
-      }
-      gameStart();
-      playRound();
-    }
-  });
-
-
-
-
-
-
-
-
-
-
-
+  // This function is used to reset the game. It brings the game back to the original state and stops any timers that might have been running.
 
 
 
@@ -258,60 +253,6 @@ $(() => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// NEXT ROUND
-// $gameBoard.append("<div></div>").addClass('square');
-// round number +=1
-
-
-// RESET
-// timer reset
-// $resetButton.hide();
-// $nextButton.hide();
-// $gameSquares.hide();
-// $whichRound.hide();
-// Timer reset
-// Div's clear
 
 
 
@@ -328,7 +269,19 @@ $(() => {
 // }
 //
 // function checkTime() {
-//   var timeDiff = (time2 - time1)/1000;
-//   return timeDiff;
-//   quickTime = timeDiff < quickTime ? timeDiff : quickTime;
+//   var userTime = (time2 - time1)/1000;
+//   return userTime;
+
+// quickestTime = (userTime < quickestTime) ? userTime : quickestTime;
+
+// localStorage.setItem('quickestTime', quickestTime);
+
+
+// function gameTime () {
+//   if (userTime < quickestTime) {
+//     quickestTime = userTime
+//     alert('Congratulations, you\'ve set the new quickest time!')
+//   } else (userTime > quickestTime) {
+//     alert('Unlucky, you were\'nt quite fast enough to set a new quick time.')
+//   }
 // }

@@ -37,7 +37,7 @@ footer {
 .gameBoard {
   // background-color: lightGrey;
   width: 650px;
-  height: 150px;
+  height: 180px;
   margin-top: 10px;
 }
 
@@ -48,13 +48,11 @@ footer {
 }
 
 .square {
-  // background-color: blue;
   border-radius: 5px;
   width: 50px;
-  height: 70px;
+  height: 100px;
   float: left;
   display: inline-block;
-  // margin: 0 auto;
   &:not(:first-of-type):not(:last-of-type) {
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -67,7 +65,7 @@ footer {
 
 }
 .difficulty {
-  // background-color: yellow;
+  background-color: yellow;
   width: 650px;
   height: 60px;
   margin-top: 20px;
@@ -75,14 +73,14 @@ footer {
 }
 
 .inplay {
-  // background-color: red;
+  background-color: red;
   width: 650px;
   height: 60px;
   margin-top: 10px;
 }
 
 .scoreSound {
-  // background-color: green;
+  background-color: green;
   width: 650px;
   height: 100px;
   margin-top: 50px;
@@ -116,10 +114,25 @@ button {
 .nextButton {
   background: linear-gradient(45deg, #6746f2 0%, #a72597 50%, #e8043d 100%);
   float: right;
-
 }
 
 .soundOnOff {
   background: linear-gradient(45deg, #71d72f 0%, #ad7d27 50%, #e8221f 100%);
   margin: 0 auto;
 }
+
+// .email {
+//   color: red;
+// }
+//
+// .twit {
+//   color: green;
+// }
+//
+// .linked {
+//   color: yellow;
+// }
+//
+// .git {
+//   color: blue;
+// }
