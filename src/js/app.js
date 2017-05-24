@@ -1,3 +1,4 @@
+
 $(() => {
 
   console.log('Igor, JavaScript\' alive!');
@@ -71,7 +72,7 @@ $(() => {
   let prev, prevcolor = null;
   let count = 0;
   let quickestTime = localStorage.getItem('quickestTime') || 0;
-
+  $quickTime.text(quickestTime)
 
   $gameBoard.on('click', '.square', changeColor);
   // Event Listener used with the changeColor function to allow JS to listen for clicks on the squares and change the colours once two clicks have been pressed.
@@ -111,9 +112,6 @@ $(() => {
     }
   });
   // Event Listener used to start the game. Depending on which game mode is clicked, it runs the script for either easy or hard.
-
-  // for (var i = 0; i < 6; i++) {
-  // }
 
   function gameStart () {
     $easyButton.hide();
@@ -229,8 +227,8 @@ $(() => {
   // This function is used when the nextButton is clicked. The nextButton only appears after the user has correctly sorted the array, and is used to move to the next round. It hides once it is pressed so the user cannot skip rounds.
 
   function resetGame() {
-    roundCounter = 1;
-    roundNumber = 1;
+    roundCounter = 0;
+    roundNumber = null;
     $resetButton.hide();
     $nextButton.hide();
     $gameSquares.hide();
@@ -240,48 +238,47 @@ $(() => {
     let roundArray = null;
     let randomColorsArr = null;
     let shuffledArray = [];
-    let roundCounter = 0;
-    let roundNumber = null;
   }
   // This function is used to reset the game. It brings the game back to the original state and stops any timers that might have been running.
 
+  function endGame () {
+    endTime();
+    timeDiff();
+    alert(`Game Complete! You finished with a time of ${timeDiff}`);
+    updateTime();
+    resetGame();
+  }
+  // This function is used to end the game upon completion of the fifth round. It takes a second time, converts it to seconds, and then alerts the user to their game time. It also updates the quickest time and alerts the user if they set a new quickest time or not. Finally, it brings the game back into the start state.
+
+  function startTime() {
+    let time1 = new Date();
+    return time1;
+  }
+  // This function is used to capture the time at which the user began the game.
+
+  function endTime() {
+    let time2 = new Date();
+    return time2;
+  }
+  // This function is used to capture the time at which the user completed the game.
+
+  function timeDiff() {
+    let userTime = (time2 - time1)/1000;
+    return userTime;
+    // This function is used to work out the difference between the start of the game and the end of the game and convert the time into seconds.
+
+    // function updateTime () {
+    //   if (userTime < quickestTime) {
+    //     alert('Congratulations, you\'ve set the new quickest time!')
+    //   } else (userTime > quickestTime) {
+    //     alert('Unfortuneatly, you were\'nt quite fast enought to set a new quick time.')
+    //   }
+    //   quickestTime = (userTime < quickestTime) ? userTime : quickestTime;
+    //   localStorage.setItem('quickestTime', quickestTime);
+    //   return quickestTime;
+    // }
+    // This function is used to check whether the game time is quicker than the current quickest time. It alerts the user whether they have set a new quick time or not, and if there is a new quick time, it updates the local storage with the new quick time.
 
 
-});
 
-
-
-
-
-
-
-
-
-
-// function startTime() {
-//   var time1 = new Date();
-//   return time1;
-// }
-//
-// function endTime() {
-//   var time2 = new Date();
-//   return time2;
-// }
-//
-// function checkTime() {
-//   var userTime = (time2 - time1)/1000;
-//   return userTime;
-
-// quickestTime = (userTime < quickestTime) ? userTime : quickestTime;
-
-// localStorage.setItem('quickestTime', quickestTime);
-
-
-// function gameTime () {
-//   if (userTime < quickestTime) {
-//     quickestTime = userTime
-//     alert('Congratulations, you\'ve set the new quickest time!')
-//   } else (userTime > quickestTime) {
-//     alert('Unlucky, you were\'nt quite fast enough to set a new quick time.')
-//   }
-// }
+  });
