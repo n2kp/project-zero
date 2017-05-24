@@ -8,12 +8,12 @@
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
   <script src="public/js/app.js" charset="utf-8"></script>
+  <!-- <script src="dist/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   <link rel="stylesheet" href="public/css/main.css">
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- <script src="dist/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css"> -->
 </head>
 <body>
 
@@ -47,8 +47,8 @@
 
       <div class="scoreSound">
         <p>Quickest Time: <span class="quickTime"></span> seconds</p>
-        <audio src="public/assets/hue_hunter_background.mp3"></audio>
-        <button type="button" class="soundOnOff">Sound On/Off</button>
+        <audio id="backgroundSound" src="public/assets/hue_hunter_background.mp3" preload="auto"></audio>
+        <button onClick="togglePlay()" type="button" class="soundOnOff">Sound On/Off</button>
       </div>
 
   </main>

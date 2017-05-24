@@ -11,9 +11,12 @@ $(() => {
   const $nextButton = $('.nextButton');
   const $quickTime = $('.quickTime');
   const $whichRound = $('.roundDisplay');
-  const $sound = $('.soundOnOff');
+  // const $sound = $('.soundOnOff');
   const $pingSound = $('audio')[0];
-  const $backgroundSound = $('audio')[1];
+  const $backgroundSound = $('#backgroundSound');
+  let time1 = null;
+  let time2 = null;
+  let userTime = null;
 
   const colorPalette = [
     ['#3db5f9', '#48a8e8', '#539ad7', '#5e8dc6', '#697fb5', '#7472a4', '#7e6493', '#895782', '#944a71', '#9f3c60', '#aa2f4f', '#b5213e', '#c0142d'],
@@ -71,8 +74,25 @@ $(() => {
   let shuffledArray = [];
   let prev, prevcolor = null;
   let count = 0;
-  let quickestTime = localStorage.getItem('quickestTime') || 0;
-  $quickTime.text(quickestTime)
+  let quickestTime = localStorage.getItem('quickestTime') || 45;
+  $quickTime.text(quickestTime);
+  let isPlaying = false;
+
+  function togglePlay () {
+    if (isPlaying) {
+      $backgroundSound.pause();
+    } else {
+      $backgroundSound.play();
+    }
+  };
+
+  $backgroundSound.onplaying = function () {
+    isplaying = true;
+  };
+  $backgroundSound.onpause = function () {
+    isplaying = false;
+  };
+
 
   $gameBoard.on('click', '.square', changeColor);
   // Event Listener used with the changeColor function to allow JS to listen for clicks on the squares and change the colours once two clicks have been pressed.
@@ -80,7 +100,7 @@ $(() => {
   $nextButton.on('click', () => {
     shuffledArray = [];
     nextRound();
-    $round.text(roundCounter + 1);
+    $round.text(roundCounter);
     playRound();
   });
   // Event Listener used to initiate the next round of the game. Empties the shuffledArray, runs the function nextRound, increase the round counter and repopulates the next round with an array.
@@ -95,20 +115,26 @@ $(() => {
 
     if ($(e.target).hasClass('easyButton')) {
       alert('You\'re about to start easy mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round. Hardly rocket science!');
-      $round.text(roundCounter + 1);
+      roundCounter++;
+      $round.text(roundCounter);
       roundNumber = 1;
       gameStart();
       playRound();
+      startTime();
+      changeColor();
 
     } else if ($(e.target).hasClass('hardButton')) {
       alert('You\'re about to start hard mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round.  Hardly rocket science!');
-      $round.text(roundCounter + 1);
+      roundCounter++;
+      $round.text(roundCounter);
       roundNumber = 5;
       for (let i = 0; i < 4; i++) {
         $gameBoard.append('<div class="square"></div>');
       }
       gameStart();
       playRound();
+      startTime();
+      changeColor();
     }
   });
   // Event Listener used to start the game. Depending on which game mode is clicked, it runs the script for either easy or hard.
@@ -192,8 +218,16 @@ $(() => {
     if (userSortedArray.length === roundArray.length && userSortedArray.every((v,i)=> v === roundArray[i])) {
       console.log('It\'s a match, well done');
       $pingSound.play();
-      alert('Round Complete, press Next Round to continue');
-      $nextButton.show();
+
+      console.log('roundCounter before alerts', roundCounter);
+      if(roundCounter > 4) {
+        alert('Game complete');
+        endGame();
+      } else {
+        alert('Round complete, press Next Round to continue.');
+        $nextButton.show();
+      }
+
     } else {
       console.log('Not quite, have another go');
     }
@@ -219,8 +253,8 @@ $(() => {
   // This function is used to switch the colors within div. Only once the user has clicked on two seperate divs will the background colors change. It also includes the checkComplete function so that once the change has been made, it can check whether it is correct or not.
 
   function nextRound () {
-    roundCounter += 1;
-    roundNumber +=1;
+    roundCounter ++;
+    roundNumber ++;
     $gameBoard.append('<div class="square"></div>');
     $nextButton.hide();
   }
@@ -244,41 +278,38 @@ $(() => {
   function endGame () {
     endTime();
     timeDiff();
-    alert(`Game Complete! You finished with a time of ${timeDiff}`);
+    alert(`Game Complete! You finished with a time of ${userTime}`);
     updateTime();
     resetGame();
   }
   // This function is used to end the game upon completion of the fifth round. It takes a second time, converts it to seconds, and then alerts the user to their game time. It also updates the quickest time and alerts the user if they set a new quickest time or not. Finally, it brings the game back into the start state.
 
   function startTime() {
-    let time1 = new Date();
-    return time1;
+    time1 = new Date();
   }
   // This function is used to capture the time at which the user began the game.
 
   function endTime() {
-    let time2 = new Date();
-    return time2;
+    time2 = new Date();
   }
   // This function is used to capture the time at which the user completed the game.
 
   function timeDiff() {
-    let userTime = (time2 - time1)/1000;
-    return userTime;
+    userTime = (time2 - time1)/1000;
+  }
     // This function is used to work out the difference between the start of the game and the end of the game and convert the time into seconds.
 
-    // function updateTime () {
-    //   if (userTime < quickestTime) {
-    //     alert('Congratulations, you\'ve set the new quickest time!')
-    //   } else (userTime > quickestTime) {
-    //     alert('Unfortuneatly, you were\'nt quite fast enought to set a new quick time.')
-    //   }
-    //   quickestTime = (userTime < quickestTime) ? userTime : quickestTime;
-    //   localStorage.setItem('quickestTime', quickestTime);
-    //   return quickestTime;
-    // }
+  function updateTime () {
+    // console.log(`${quickestTime} is the time to beat but the user got ${userTime}`);
+    if (userTime < quickestTime) {
+      alert(`Congratulations, you've set the new quickest time!`);
+    } else {
+      alert(`Unfortunately, you weren't quite fast enought to set a new quick time.`);
+    }
+    quickestTime = (userTime < quickestTime) ? userTime : quickestTime;
+    localStorage.setItem('quickestTime', quickestTime);
+    return quickestTime;
+  }
     // This function is used to check whether the game time is quicker than the current quickest time. It alerts the user whether they have set a new quick time or not, and if there is a new quick time, it updates the local storage with the new quick time.
 
-
-
-  });
+});
