@@ -2,9 +2,14 @@
     box-sizing: border-box;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
-  background: linear-gradient(to top, #79ece4, #169aca);
+  background: linear-gradient(to top, #79ece4, #138ab5);
   font-family: 'Quicksand', sans-serif;
+  min-height: 100%;
 }
 
 header h1 {
@@ -19,25 +24,16 @@ header h1 {
 
 main {
   margin: 0 auto;
-  width: 750px;
+  max-width: 100%;
 }
 
-// footer {
-//   font-family: 'Quicksand', sans-serif;
-//   background: linear-gradient(to left, #169c93, #1590bc);
-//   border-radius: 10px;
-//   // border: 1px solid dodgerBlue;
-//   font-size: 16px;
-//   margin: 30px auto;
-//   width: 650px;
-//   padding: 1px 0;
-// }
 
 footer {
-  width: 750px;
+  width: 100%;
   height: 70px;
   margin: 15px auto;
   padding: 5px;
+  display: block;
 
   p {
     height: 50px;
@@ -47,20 +43,29 @@ footer {
   .leftfoot {
     float: left;
     height: 50px;
+    // width: 50%;
   }
 
   .rightfoot {
     float: right;
     height: 50px;
+    // width: 50%;
   }
 }
 
 .gameBoard {
-  // background-color: lightGrey;
-  width: 750px;
-  height: 180px;
+  width: 100%;
+  // height: 180px;
   margin-top: 10px;
   text-align: center;
+}
+
+.instructions {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
 }
 
 .roundDisplay {
@@ -87,23 +92,21 @@ footer {
 }
 
 .difficulty {
-  // background-color: yellow;
-  width: 750px;
-  height: 60px;
+  width: 100%;
+  // height: 60px;
   margin-top: 20px;
   text-align: center;
 }
 
 .inplay {
-  // background-color: red;
-  width: 750px;
+  width: 100%;
   height: 60px;
-  margin-top: 10px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .scoreSound {
-  // background-color: green;
-  width: 750px;
+  width: 100%;
   height: 100px;
   margin-top: 50px;
   text-align: center;
@@ -121,30 +124,31 @@ button {
   -webkit-transition: box-shadow 1s ease;
 	transition: box-shadow 1s ease;
   margin: 5px 10px;
+  background-color: dodgerBlue;
 }
 
 .easyButton {
-  background: linear-gradient(45deg, #b9f3cd 0%, #dcade6 50%, #ff66ff 100%);
+//   background: linear-gradient(45deg, #b9f3cd 0%, #dcade6 50%, #ff66ff 100%);
   color: black;
 }
-
+//
 .hardButton {
-  background: linear-gradient(45deg, #216deb 0%, #875891 50%, #ec4437 100%);
+//   background: linear-gradient(45deg, #216deb 0%, #875891 50%, #ec4437 100%);
   color: black;
 }
-
+//
 .resetButton {
-  background: linear-gradient(45deg, #5ca10e 0%, #9e7a3b 50%, #df5369 100%);
-  float: left;
+//   background: linear-gradient(45deg, #5ca10e 0%, #9e7a3b 50%, #df5369 100%);
+  // margin-right: 50px;
 }
-
+//
 .nextButton{
   background: linear-gradient(45deg, #6746f2 0%, #a72597 50%, #e8043d 100%);
-  float: right;
+  // margin-left: 50px;
 }
 
 .soundOnOff {
-  background: linear-gradient(45deg, #71d72f 0%, #ad7d27 50%, #e8221f 100%);
+//   background: linear-gradient(45deg, #71d72f 0%, #ad7d27 50%, #e8221f 100%);
   margin: 0 auto;
 }
 
@@ -152,28 +156,62 @@ button {
 .email {
   color: #FF0000;
 }
-
 .twit {
   color: #AA0055;
 }
-
 .linked {
   color: #5500AA;
 }
-
 .git {
   color: #0000FF;
 }
 
-// .leftfoot {
-//   float: left;
-//   // display: inline-block;
-//   height: 50px;
-// }
-//
-// .rightfoot {
-//   margin-top: 10px;
-//   float: right;
-//   // display: inline-block;
-//   height: 50px;
-// }
+
+.foot1 {
+  color: #0000FF;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.foot2 {
+  color: #3300CC;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.foot3 {
+  color: #660099;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.foot4 {
+  color: #990066;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.foot5 {
+  color: #CC0033;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.foot6 {
+  color: #FF0000;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+
+@media only screen and (max-width: 700px) {
+  .square {
+    width: 100%;
+    height: 40px;
+    display: block;
+  }
+  .leftfoot, .rightfoot {
+    float: none;
+    display: inline-block;
+  }
+  .resetButton, .nextButton, easyButton, hardButton {
+    margin: 10px 10px;
+  }
+
+
+}

@@ -108,7 +108,7 @@ $(() => {
     console.log('clicked');
 
     if ($(e.target).hasClass('easyButton')) {
-      alert('You\'re about to start easy mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round. Hardly rocket science!');
+      alert('Easy Mode Selected');
       roundCounter++;
       $round.text(roundCounter);
       roundNumber = 1;
@@ -121,7 +121,7 @@ $(() => {
       changeColor();
 
     } else if ($(e.target).hasClass('hardButton')) {
-      alert('You\'re about to start hard mode. Instructions: Simply move the blocks in the middle of the palette so that they create the correct gradient between the two end colours. After you complete each round, press the Next Round button to continue to the following round.  Hardly rocket science!');
+      alert('Hard Mode Selected');
       roundCounter++;
       $round.text(roundCounter);
       roundNumber = 5;
