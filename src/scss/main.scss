@@ -1,8 +1,9 @@
 *{
     box-sizing: border-box;
 }
+
 body {
-  background: linear-gradient(to right, #79ece4, #169aca);
+  background: linear-gradient(to top, #79ece4, #169aca);
   font-family: 'Quicksand', sans-serif;
 }
 
@@ -18,27 +19,48 @@ header h1 {
 
 main {
   margin: 0 auto;
-  width: 650px;
+  width: 750px;
 }
 
+// footer {
+//   font-family: 'Quicksand', sans-serif;
+//   background: linear-gradient(to left, #169c93, #1590bc);
+//   border-radius: 10px;
+//   // border: 1px solid dodgerBlue;
+//   font-size: 16px;
+//   margin: 30px auto;
+//   width: 650px;
+//   padding: 1px 0;
+// }
+
 footer {
-  font-family: 'Quicksand', sans-serif;
-  text-align: center;
-  background: linear-gradient(to left, #169c93, #1590bc);
-  border-radius: 10px;
-  border: 1px solid dodgerBlue;
-  font-size: 18px;
-  margin: 30px auto;
-  width: 650px;
-  padding: 1px 0;
-  background-color: white;
+  width: 750px;
+  height: 70px;
+  margin: 15px auto;
+  padding: 5px;
+
+  p {
+    height: 50px;
+    margin-top: 10px;
+  }
+
+  .leftfoot {
+    float: left;
+    height: 50px;
+  }
+
+  .rightfoot {
+    float: right;
+    height: 50px;
+  }
 }
 
 .gameBoard {
   // background-color: lightGrey;
-  width: 650px;
+  width: 750px;
   height: 180px;
   margin-top: 10px;
+  text-align: center;
 }
 
 .roundDisplay {
@@ -51,7 +73,6 @@ footer {
   border-radius: 5px;
   width: 50px;
   height: 100px;
-  float: left;
   display: inline-block;
   &:not(:first-of-type):not(:last-of-type) {
     cursor: pointer;
@@ -64,9 +85,10 @@ footer {
   }
 
 }
+
 .difficulty {
   // background-color: yellow;
-  width: 650px;
+  width: 750px;
   height: 60px;
   margin-top: 20px;
   text-align: center;
@@ -74,14 +96,14 @@ footer {
 
 .inplay {
   // background-color: red;
-  width: 650px;
+  width: 750px;
   height: 60px;
   margin-top: 10px;
 }
 
 .scoreSound {
   // background-color: green;
-  width: 650px;
+  width: 750px;
   height: 100px;
   margin-top: 50px;
   text-align: center;
@@ -101,7 +123,12 @@ button {
   margin: 5px 10px;
 }
 
-.easyButton, .hardButton {
+.easyButton {
+  background: linear-gradient(45deg, #b9f3cd 0%, #dcade6 50%, #ff66ff 100%);
+  color: black;
+}
+
+.hardButton {
   background: linear-gradient(45deg, #216deb 0%, #875891 50%, #ec4437 100%);
   color: black;
 }
@@ -111,7 +138,7 @@ button {
   float: left;
 }
 
-.nextButton {
+.nextButton{
   background: linear-gradient(45deg, #6746f2 0%, #a72597 50%, #e8043d 100%);
   float: right;
 }
@@ -121,18 +148,32 @@ button {
   margin: 0 auto;
 }
 
-// .email {
-//   color: red;
+
+.email {
+  color: #FF0000;
+}
+
+.twit {
+  color: #AA0055;
+}
+
+.linked {
+  color: #5500AA;
+}
+
+.git {
+  color: #0000FF;
+}
+
+// .leftfoot {
+//   float: left;
+//   // display: inline-block;
+//   height: 50px;
 // }
 //
-// .twit {
-//   color: green;
-// }
-//
-// .linked {
-//   color: yellow;
-// }
-//
-// .git {
-//   color: blue;
+// .rightfoot {
+//   margin-top: 10px;
+//   float: right;
+//   // display: inline-block;
+//   height: 50px;
 // }

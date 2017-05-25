@@ -8,18 +8,15 @@
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
   <script src="public/js/app.js" charset="utf-8"></script>
-  <!-- <script src="dist/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   <link rel="stylesheet" href="public/css/main.css">
   <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
   <header>
 
-    <h1>Hue Hunter</h1>
+    <h1 class="animated lightSpeedIn">Hue Hunter</h1>
 
   </header>
 
@@ -28,11 +25,6 @@
       <div class="gameBoard">
         <audio src="public/assets/correct_ping.mp3"></audio>
         <p hidden class="roundDisplay"> Round <span class="round"></span></p>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
       </div>
 
       <div class="difficulty">
@@ -47,22 +39,26 @@
 
       <div class="scoreSound">
         <p>Quickest Time: <span class="quickTime"></span> seconds</p>
-        <audio id="backgroundSound" src="public/assets/hue_hunter_background.mp3" preload="auto"></audio>
-        <button onClick="togglePlay()" type="button" class="soundOnOff">Sound On/Off</button>
+        <audio src="public/assets/hue_hunter_background.mp3"></audio>
+        <button type="button" class="soundOnOff">Sound On/Off</button>
       </div>
 
   </main>
 
   <footer>
-    <div class="leftmedia">
-      <!-- <a href="mailto:n2kp@hotmail.com"><i class="fa fa-envelope email" style="font-size:24px" aria-hidden="true"></i></a> -->
-      <!-- <a href="https://twitter.com/n2kp" target="_blank"><i class="fa fa-twitter twit" style="font-size:24px" aria-hidden="true"></i></a> -->
+
+    <div class="leftfoot">
+      <p>Created by &#60&#62&#32;Nimesh Patel&#32;&#60&#62</p>
     </div>
-    <p>Created by &#60&#32;&#62&#32;Nimesh Patel&#32;&#60&#32;&#62</p>
-    <div class="rightmedia">
-      <!-- <a href="https://www.linkedin.com/in/nimesh-patel-41b782122/" target="_blank"><i class="fa fa-linkedin linked" style="font-size:24px" aria-hidden="true"></i></a> -->
-      <!-- <a href="https://github.com/n2kp" target="_blank"><i class="fa fa-github git" style="font-size:24px" aria-hidden="true"></i></a> -->
+
+    <div class="rightfoot">
+      <a href="mailto:n2kp@hotmail.com"><i class="fa fa-envelope email" style="font-size:24px" aria-hidden="true"></i></a>
+      <a href="https://twitter.com/n2kp" target="_blank"><i class="fa fa-twitter twit" style="font-size:24px" aria-hidden="true"></i></a>
+      <a href="https://www.linkedin.com/in/nimesh-patel-41b782122/" target="_blank"><i class="fa fa-linkedin linked" style="font-size:24px" aria-hidden="true"></i></a>
+      <a href="https://github.com/n2kp" target="_blank"><i class="fa fa-github git" style="font-size:24px" aria-hidden="true"></i></a>
     </div>
+
   </footer>
+
 </body>
 </html>

@@ -11,9 +11,9 @@ $(() => {
   const $nextButton = $('.nextButton');
   const $quickTime = $('.quickTime');
   const $whichRound = $('.roundDisplay');
-  // const $sound = $('.soundOnOff');
+  const $sound = $('.soundOnOff');
   const $pingSound = $('audio')[0];
-  const $backgroundSound = $('#backgroundSound');
+  const $backgroundSound = $('audio')[1];
   let time1 = null;
   let time2 = null;
   let userTime = null;
@@ -67,8 +67,7 @@ $(() => {
 
   let roundCounter = 0;
   let roundNumber = null;
-  let $round = $('.round');
-  let $gameSquares = $('.square');
+  const $round = $('.round');
   let roundArray = null;
   let randomColorsArr = null;
   let shuffledArray = [];
@@ -78,27 +77,22 @@ $(() => {
   $quickTime.text(quickestTime);
   let isPlaying = false;
 
-  function togglePlay () {
-    if (isPlaying) {
-      $backgroundSound.pause();
-    } else {
-      $backgroundSound.play();
-    }
-  };
 
-  $backgroundSound.onplaying = function () {
-    isplaying = true;
-  };
-  $backgroundSound.onpause = function () {
-    isplaying = false;
-  };
-
+  $sound.on('click', () => {
+    toggleSound();
+    $backgroundSound.onplaying = function() {
+      isPlaying = true;
+    };
+    $backgroundSound.onpause = function() {
+      isPlaying = false;
+    };
+  });
+  // Event Listener used to play and pause the background music of the game.
 
   $gameBoard.on('click', '.square', changeColor);
   // Event Listener used with the changeColor function to allow JS to listen for clicks on the squares and change the colours once two clicks have been pressed.
 
   $nextButton.on('click', () => {
-    shuffledArray = [];
     nextRound();
     $round.text(roundCounter);
     playRound();
@@ -118,6 +112,9 @@ $(() => {
       roundCounter++;
       $round.text(roundCounter);
       roundNumber = 1;
+      for (let i = 0; i < 5; i++) {
+        $gameBoard.append('<div class="square"></div>');
+      }
       gameStart();
       playRound();
       startTime();
@@ -128,7 +125,7 @@ $(() => {
       roundCounter++;
       $round.text(roundCounter);
       roundNumber = 5;
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 9; i++) {
         $gameBoard.append('<div class="square"></div>');
       }
       gameStart();
@@ -138,6 +135,16 @@ $(() => {
     }
   });
   // Event Listener used to start the game. Depending on which game mode is clicked, it runs the script for either easy or hard.
+
+
+  function toggleSound () {
+    if (isPlaying) {
+      $backgroundSound.pause();
+    } else {
+      $backgroundSound.play();
+    }
+  }
+  // This function is used to toggle the background music whenever the user presses the soundOnOff button.
 
   function gameStart () {
     $easyButton.hide();
@@ -180,6 +187,7 @@ $(() => {
   // This takes the roundArray, removes the first and last indices, and then shuffles the middle indices, before reattaching the first and last indices. It also have a double shuffle function in case the first function returns the same array as the roundArray. Stores the array into a variable called shuffledArray.
 
   function playRound() {
+    shuffledArray = [];
     roundNumber;
     console.log('In play round', roundNumber);
     randomColorsArr = colors();
@@ -265,13 +273,14 @@ $(() => {
     roundNumber = null;
     $resetButton.hide();
     $nextButton.hide();
-    $gameSquares.hide();
+    $('.square').remove();
     $whichRound.hide();
     $easyButton.show();
     $hardButton.show();
     let roundArray = null;
     let randomColorsArr = null;
     let shuffledArray = [];
+    console.log(shuffledArray);
   }
   // This function is used to reset the game. It brings the game back to the original state and stops any timers that might have been running.
 
