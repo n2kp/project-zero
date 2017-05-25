@@ -11,6 +11,7 @@ $(() => {
   const $nextButton = $('.nextButton');
   const $quickTime = $('.quickTime');
   const $whichRound = $('.roundDisplay');
+  const $round = $('.round');
   const $sound = $('.soundOnOff');
   const $pingSound = $('audio')[0];
   const $backgroundSound = $('audio')[1];
@@ -65,48 +66,60 @@ $(() => {
   ];
   // Contains 9 arrays with varying indices, used to determine how many indices to deploy depending upon which round and what game mode.
 
+  let isPlaying = false;
   let roundCounter = 0;
   let roundNumber = null;
-  const $round = $('.round');
   let roundArray = null;
   let randomColorsArr = null;
   let shuffledArray = [];
   let prev, prevcolor = null;
   let count = 0;
   let quickestTime = localStorage.getItem('quickestTime') || 45;
+
   $quickTime.text(quickestTime);
-  let isPlaying = false;
 
 
-  $sound.on('click', () => {
-    toggleSound();
+  $sound.on('click', togglePlayPause);
+  // Event Listener used to play and pause the background music of the game.
+
+  $gameBoard.on('click', '.square', changeColor);
+  // Event Listener used with the changeColor function to allow JS to listen for clicks on the squares and change the colours once two clicks have been pressed.
+
+  $nextButton.on('click', startRound);
+  // Event Listener used to initiate the next round of the game. Empties the shuffledArray, runs the function nextRound, increase the round counter and repopulates the next round with an array.
+
+  $resetButton.on('click', resetGame);
+  // Event Listener used to reset the game. Brings the game back to the initial state when loaded. Does this by running the resetGame function.
+
+  $difficulty.on('click', chooseRound);
+  // Event Listener used to start the game. Depending on which game mode is clicked, it runs the script for either easy or hard.
+
+
+  function togglePlayPause () {
+    if (isPlaying) {
+      $backgroundSound.pause();
+    } else {
+      $backgroundSound.play();
+    }
+
     $backgroundSound.onplaying = function() {
       isPlaying = true;
     };
     $backgroundSound.onpause = function() {
       isPlaying = false;
     };
-  });
-  // Event Listener used to play and pause the background music of the game.
+  }
+  // This function is used to toggle the background music of the game and is invoked by the Event Listener.
 
-  $gameBoard.on('click', '.square', changeColor);
-  // Event Listener used with the changeColor function to allow JS to listen for clicks on the squares and change the colours once two clicks have been pressed.
-
-  $nextButton.on('click', () => {
-    nextRound();
-    $round.text(roundCounter);
+  function playGame () {
+    gameStart();
     playRound();
-  });
-  // Event Listener used to initiate the next round of the game. Empties the shuffledArray, runs the function nextRound, increase the round counter and repopulates the next round with an array.
+    startTime();
+    changeColor();
+  }
+  // This function combines the gameStart, playRound, startTime and changeColor functions.
 
-  $resetButton.on('click', () => {
-    resetGame();
-  });
-  // Event Listener used to reset the game. Brings the game back to the initial state when loaded. Does this by running the resetGame function.
-
-  $difficulty.on('click', (e) => {
-    console.log('clicked');
-
+  function chooseRound (e) {
     if ($(e.target).hasClass('easyButton')) {
       alert('Easy Mode Selected');
       roundCounter++;
@@ -115,10 +128,7 @@ $(() => {
       for (let i = 0; i < 5; i++) {
         $gameBoard.append('<div class="square"></div>');
       }
-      gameStart();
-      playRound();
-      startTime();
-      changeColor();
+      playGame();
 
     } else if ($(e.target).hasClass('hardButton')) {
       alert('Hard Mode Selected');
@@ -128,23 +138,10 @@ $(() => {
       for (let i = 0; i < 9; i++) {
         $gameBoard.append('<div class="square"></div>');
       }
-      gameStart();
-      playRound();
-      startTime();
-      changeColor();
-    }
-  });
-  // Event Listener used to start the game. Depending on which game mode is clicked, it runs the script for either easy or hard.
-
-
-  function toggleSound () {
-    if (isPlaying) {
-      $backgroundSound.pause();
-    } else {
-      $backgroundSound.play();
+      playGame();
     }
   }
-  // This function is used to toggle the background music whenever the user presses the soundOnOff button.
+  // This function is used when the user is determining which game mode they want to play.
 
   function gameStart () {
     $easyButton.hide();
@@ -267,6 +264,13 @@ $(() => {
     $nextButton.hide();
   }
   // This function is used when the nextButton is clicked. The nextButton only appears after the user has correctly sorted the array, and is used to move to the next round. It hides once it is pressed so the user cannot skip rounds.
+
+  function startRound () {
+    nextRound();
+    $round.text(roundCounter);
+    playRound();
+  }
+  // This function is used on the nextRound Event Listener to begin the next round.
 
   function resetGame() {
     roundCounter = 0;

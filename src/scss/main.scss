@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background: linear-gradient(to top, #79ece4, #138ab5);
+  background: linear-gradient(to top, #79ece4, #1b98e0);
   font-family: 'Quicksand', sans-serif;
   min-height: 100%;
 }
@@ -15,9 +15,9 @@ body {
 header h1 {
   font-family: 'Quicksand', sans-serif;
   text-align: center;
-  font-size: 72px;
+  font-size: 80px;
   margin: 40px auto;
-  background: -webkit-linear-gradient(black, grey);
+  background: -webkit-linear-gradient(#000000, #708090);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -25,98 +25,146 @@ header h1 {
 main {
   margin: 0 auto;
   max-width: 100%;
-}
 
-
-footer {
-  width: 100%;
-  height: 70px;
-  margin: 15px auto;
-  padding: 5px;
-  display: block;
-
-  p {
-    height: 50px;
+  .gameBoard {
+    width: 100%;
+    height: 180px;
     margin-top: 10px;
-  }
-
-  .leftfoot {
-    float: left;
-    height: 50px;
-    // width: 50%;
-  }
-
-  .rightfoot {
-    float: right;
-    height: 50px;
-    // width: 50%;
-  }
-}
-
-.gameBoard {
-  width: 100%;
-  // height: 180px;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.instructions {
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 16px;
-}
-
-.roundDisplay {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 32px;
-  text-align: center;
-}
-
-.square {
-  border-radius: 5px;
-  width: 50px;
-  height: 100px;
-  display: inline-block;
-  &:not(:first-of-type):not(:last-of-type) {
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  &:hover {
-    &:not(:first-of-type):not(:last-of-type) {
-      transform: scale(1.15);
+    text-align: center;
+    .roundDisplay {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 32px;
+    }
+    .square {
+      border-radius: 5px;
+      width: 50px;
+      height: 100px;
+      display: inline-block;
+      &:not(:first-of-type):not(:last-of-type) {
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      &:hover {
+        &:not(:first-of-type):not(:last-of-type) {
+          transform: scale(1.15);
+        }
+      }
     }
   }
 
+  .instructions {
+    width: 650px;
+    margin: 0 20px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+
+    .instruct {
+      font-size: 20px;
+      text-decoration: underline;
+    }
+  }
+
+  .difficulty {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+
+    .easyButton {
+      background: linear-gradient(90deg, #ff3366 0%, #ff6666 50%, #ff9966 100%);
+      color: #000000;
+    }
+    .hardButton {
+      background: linear-gradient(90deg, #ff9966 0%, #ffcc66 50%, #ffff66 100%);
+      color: #000000;
+    }
+  }
+
+  .inplay {
+    width: 100%;
+    height: 60px;
+    margin-top: 20px;
+    text-align: center;
+
+    .resetButton {
+      background: linear-gradient(90deg, #ff3366 0%, #ff6666 50%, #ff9966 100%);
+    }
+    .nextButton{
+      background: linear-gradient(90deg, #ff9966 0%, #ffcc66 50%, #ffff66 100%);
+    }
+  }
+
+  .scoreSound {
+    width: 100%;
+    height: 100px;
+    margin-top: 30px;
+    text-align: center;
+
+    .soundOnOff {
+      background: linear-gradient(45deg, #6746f2 0%, #a72597 50%, #e8043d 100%);
+      margin: 0 auto;
+    }
+  }
 }
 
-.difficulty {
-  width: 100%;
-  // height: 60px;
-  margin-top: 20px;
-  text-align: center;
-}
+footer {
+  height: 50px;
+  display: block;
+  max-width: 850px;
+  margin: 10px auto;
+  border-top: 1px solid black;
 
-.inplay {
-  width: 100%;
-  height: 60px;
-  margin-top: 20px;
-  text-align: center;
-}
+  .leftfoot {
+    height: 50px;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    .foot1 {
+      color: #0000FF;
+    }
+    .foot2 {
+      color: #3300CC;
+    }
+    .foot3 {
+      color: #660099;
+    }
+    .foot4 {
+      color: #990066;
+    }
+    .foot5 {
+      color: #CC0033;
+    }
+    .foot6 {
+      color: #FF0000;
+    }
+  }
 
-.scoreSound {
-  width: 100%;
-  height: 100px;
-  margin-top: 50px;
-  text-align: center;
+  .rightfoot {
+    height: 50px;
+    float: right;
+    margin-top: 15px;
+    .email {
+      color: #FF0000;
+    }
+    .twit {
+      color: #AA0055;
+    }
+    .linked {
+      color: #5500AA;
+    }
+    .git {
+      color: #0000FF;
+    }
+  }
 }
 
 button {
 	border-radius: 10px;
 	box-shadow: 0px 2px 4px rgba(34,62,66,.25);
   font-family: 'Quicksand', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 0.5px;
   padding: 10px 40px;
   text-decoration: none;
@@ -124,94 +172,38 @@ button {
   -webkit-transition: box-shadow 1s ease;
 	transition: box-shadow 1s ease;
   margin: 5px 10px;
-  background-color: dodgerBlue;
 }
-
-.easyButton {
-//   background: linear-gradient(45deg, #b9f3cd 0%, #dcade6 50%, #ff66ff 100%);
-  color: black;
-}
-//
-.hardButton {
-//   background: linear-gradient(45deg, #216deb 0%, #875891 50%, #ec4437 100%);
-  color: black;
-}
-//
-.resetButton {
-//   background: linear-gradient(45deg, #5ca10e 0%, #9e7a3b 50%, #df5369 100%);
-  // margin-right: 50px;
-}
-//
-.nextButton{
-  background: linear-gradient(45deg, #6746f2 0%, #a72597 50%, #e8043d 100%);
-  // margin-left: 50px;
-}
-
-.soundOnOff {
-//   background: linear-gradient(45deg, #71d72f 0%, #ad7d27 50%, #e8221f 100%);
-  margin: 0 auto;
-}
-
-
-.email {
-  color: #FF0000;
-}
-.twit {
-  color: #AA0055;
-}
-.linked {
-  color: #5500AA;
-}
-.git {
-  color: #0000FF;
-}
-
-
-.foot1 {
-  color: #0000FF;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-.foot2 {
-  color: #3300CC;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-.foot3 {
-  color: #660099;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-.foot4 {
-  color: #990066;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-.foot5 {
-  color: #CC0033;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-.foot6 {
-  color: #FF0000;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
 
 @media only screen and (max-width: 700px) {
+  .gameBoard {
+    height: auto;
+  }
+  .inplay {
+  height: auto;
+  }
   .square {
     width: 100%;
     height: 40px;
     display: block;
   }
-  .leftfoot, .rightfoot {
-    float: none;
-    display: inline-block;
-  }
   .resetButton, .nextButton, easyButton, hardButton {
     margin: 10px 10px;
   }
+  .instructions {
+    max-width: 100%;
+  }
+}
 
-
+@media only screen and (max-width: 430px) {
+  footer {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+  .leftfoot, .rightfoot {
+    display: block;
+    float: none;
+    height: 25px;
+    margin: 0 auto;
+  }
 }
