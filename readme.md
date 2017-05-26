@@ -17,6 +17,8 @@ First project for General Assembly WDI27, London.
 > **Note**: You'll need to have `gulp-cli` installed globally
 > `npm i -g gulp-cli`
 
+You can clone or download the code from my GitHub repo [here.](https://github.com/n2kp/project-zero)
+
 ##Description
 Hue Hunter is a simply colour game which requires the user to sort an array of colours into the correct gradient between two end colours. My aim was to build a game that visually looked stunning, as well as be able to function effectively. I went for a minimalistic look with clean lines and bright colours.
 
@@ -58,9 +60,9 @@ The technologies that were used in creating this game are as follows:
 ![HTML5](http://i.imgur.com/q9EvaStt.png)![SASS](http://i.imgur.com/P94Tqdht.png)![JSES6](http://i.imgur.com/vy0lxaNt.png)![JQuery](http://i.imgur.com/fuCAXrbt.png)![Gulp](http://i.imgur.com/YBcUaKHt.png)![NPM](http://i.imgur.com/kZrj2tTt.png)![Git](http://i.imgur.com/aj8xhG8t.png)![GitHub](http://i.imgur.com/no84Bgtt.png)
 
 ##Challenges
-With this being my first solo project, my primary challenge was to be able to construct the code in a way that, not only works, but is succinct and DRY. Dring my time creating this game, I ran into quite a few problem, but fortunately I was able to overcome them with the help of my instructors. 
+With this being my first solo project, my primary challenge was to be able to construct the code in a way that, not only works, but is succinct and DRY. 
 
-From trying to create functions that were concise enough to make the game work but were easy enough to understand for another developer to look through and understand what I did and why I did it, to attempting to Namespace the code, I ran into a few issues during the course of the build, but by far the most difficult challenge I faced was working out a way to map the large colour palettes I had to produce smaller arrays which preserved a manageable gradient within. My issue was that there was no discernible pattern between the indices from one round to another. The images below shows how one colour palette is divided to be used in different rounds.
+The most difficult challenge I faced was working out a way to map the large colour palettes I had to produce smaller arrays which preserved a manageable gradient within. My issue was that there was no discernible pattern between the indices from one round to another. The images below shows how one colour palette is divided to be used in different rounds.
 
 ![pattern_indices](http://i.imgur.com/LmWkguz.png)
 
@@ -70,13 +72,9 @@ As there was no pattern, I was not able to write a function that would automatuc
 
 The reason I had to choose the pattern i did was to make sure that the gradient between any two colours was not too large as to make it difficult for the user to see the answer.
 
-A way round this would have been to create colour palettes with large indices between them, but the problem with that could be that if two colours were choosen which were very similar, the points between them might be near impossible to compare. 
-
 ##Going Forward
 
-Going forward after this project, I have learnt the effort and skill required to build a site from scratch. Learning the theory was great, but being able to put it into practice was the most enjoyable part.
-
-Looking back at what I have produced, there are certain features and functions I would like to add to the game in the future.
+Going forward there are certain features and functions I would like to add to the game in the future.
 
 These are:
 
@@ -87,5 +85,5 @@ These are:
 - I would like to use NameSpacing to make the code more manageable and reduce the chance of reating bugs in the code by limiting the number of global variables we can overwirte.
 - I would also like to add a bonus speed round where the user has a set amount of time to solve a very large and complex colour wheel gradient, but this will probably need a new funcion which can create an array of gradient colours that loop back upon itself so as to create a 'wheel' of colour.
 
-## Downloading the repo:
-You can clone and/or download the code I created from my GitHub repo [here.](https://github.com/n2kp/project-zero)
+## Playing the game
+The game is available to play [here.](https://salty-brook-68142.herokuapp.com/)
