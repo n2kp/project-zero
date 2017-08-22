@@ -86,4 +86,4 @@ These are:
 - I would also like to add a bonus speed round where the user has a set amount of time to solve a very large and complex colour wheel gradient, but this will probably need a new funcion which can create an array of gradient colours that loop back upon itself so as to create a 'wheel' of colour.
 
 ## Playing the game
-The game is available to play [here.](https://salty-brook-68142.herokuapp.com/)
+The game is available to play [here.](https://hue-hunter.herokuapp.com/)

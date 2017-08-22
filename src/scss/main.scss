@@ -202,12 +202,14 @@ button {
     height: auto;
     margin: 0 auto;
 
-    .leftfoot, .rightfoot {
-      float:none;
-      display: block;
-      text-align: center;
-      height: 25px;
-    }
+
+
+  }
+  footer  footer .rightfoot {
+    float:none;
+    display: block;
+    text-align: center;
+    height: 25px;
   }
   .inplay {
     height: auto;
